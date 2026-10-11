@@ -34,8 +34,8 @@ const ChapterClosing = () => {
                     </div>
 
                     <h2 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-8 leading-[1.05] text-white tracking-tight">
-                        Ready to{" "}
-                        <span className="text-gradient-solar">collaborate?</span>
+                        Let&apos;s build{" "}
+                        <span className="text-gradient-play">something fun</span>
                     </h2>
 
                     <p className="text-xl md:text-2xl text-muted max-w-2xl mx-auto mb-14 leading-relaxed font-light">
@@ -47,7 +47,7 @@ const ChapterClosing = () => {
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
                         <a
                             href="mailto:aadishparashar001@gmail.com"
-                            className="px-8 py-4 rounded-xl bg-solar text-void font-display font-bold text-sm tracking-wide hover:bg-solar-bright transition-all duration-300 glow-solar w-full sm:w-auto flex items-center justify-center gap-3"
+                            className="btn-primary w-full sm:w-auto !px-8 !py-4"
                         >
                             <Mail size={18} />
                             Send Email
@@ -57,7 +57,7 @@ const ChapterClosing = () => {
                             href="https://wa.me/919588188463"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-8 py-4 rounded-xl border border-white/10 text-white font-display font-bold text-sm tracking-wide hover:bg-white/5 hover:border-white/20 transition-all duration-300 w-full sm:w-auto flex items-center justify-center gap-3"
+                            className="btn-ghost w-full sm:w-auto !px-8 !py-4"
                         >
                             <MessageCircle size={18} />
                             WhatsApp

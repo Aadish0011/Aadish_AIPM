@@ -25,11 +25,11 @@ interface OrbitRing {
 }
 
 const STAR_COLORS = [
-    "255, 255, 255",
-    "200, 210, 255",
-    "255, 235, 200",
-    "180, 190, 255",
-    "212, 175, 55",
+    "210, 210, 220",
+    "180, 190, 220",
+    "220, 205, 175",
+    "165, 175, 210",
+    "184, 148, 58",
 ];
 
 const GalaxyBackground = () => {
@@ -185,27 +185,30 @@ const GalaxyBackground = () => {
             <div
                 className="fixed inset-0 z-0"
                 style={{
-                    background: "linear-gradient(160deg, #fefce8 0%, #f8fafc 20%, #f1f5f9 50%, #faf5ff 80%, #f8fafc 100%)",
+                    background:
+                        "linear-gradient(165deg, #f5f2ea 0%, #f3f1eb 28%, #eeebe3 55%, #e8ecf2 100%)",
                 }}
             >
                 <div
-                    className="absolute top-[-15%] right-[-10%] w-[700px] h-[700px] rounded-full pointer-events-none"
-                    style={{ background: "radial-gradient(circle, rgba(212,175,55,0.06), transparent 60%)" }}
-                />
-                <div
-                    className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full pointer-events-none"
-                    style={{ background: "radial-gradient(circle, rgba(139,92,246,0.04), transparent 60%)" }}
-                />
-                <div
-                    className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full pointer-events-none"
-                    style={{ background: "radial-gradient(circle, rgba(59,130,246,0.025), transparent 55%)" }}
-                />
-                {/* Subtle dot grid pattern */}
-                <div
-                    className="absolute inset-0 opacity-[0.3] pointer-events-none"
+                    className="absolute top-[-18%] right-[-12%] w-[720px] h-[720px] rounded-full pointer-events-none"
                     style={{
-                        backgroundImage: "radial-gradient(circle, #cbd5e1 0.5px, transparent 0.5px)",
-                        backgroundSize: "32px 32px",
+                        background:
+                            "radial-gradient(circle, rgba(184,148,58,0.07), transparent 62%)",
+                    }}
+                />
+                <div
+                    className="absolute bottom-[-14%] left-[-10%] w-[620px] h-[620px] rounded-full pointer-events-none"
+                    style={{
+                        background:
+                            "radial-gradient(circle, rgba(74,115,196,0.04), transparent 62%)",
+                    }}
+                />
+                <div
+                    className="absolute inset-0 opacity-[0.28] pointer-events-none"
+                    style={{
+                        backgroundImage:
+                            "radial-gradient(circle, #b8b0a0 0.55px, transparent 0.55px)",
+                        backgroundSize: "28px 28px",
                     }}
                 />
             </div>
@@ -217,29 +220,29 @@ const GalaxyBackground = () => {
             className="fixed inset-0 z-0"
             style={{
                 background:
-                    "linear-gradient(180deg, #030014 0%, #050520 40%, #040018 70%, #030014 100%)",
+                    "linear-gradient(180deg, #05040f 0%, #08071a 42%, #060514 72%, #05040f 100%)",
             }}
         >
             <canvas ref={canvasRef} className="absolute inset-0 block" />
 
             <div
-                className="absolute top-[10%] left-[20%] w-[600px] h-[600px] rounded-full opacity-[0.025] pointer-events-none"
-                style={{ background: "radial-gradient(circle, #8b5cf6, transparent 70%)" }}
+                className="absolute top-[8%] left-[18%] w-[620px] h-[620px] rounded-full opacity-[0.02] pointer-events-none"
+                style={{ background: "radial-gradient(circle, #6558B8, transparent 70%)" }}
             />
             <div
-                className="absolute bottom-[20%] right-[15%] w-[800px] h-[800px] rounded-full opacity-[0.018] pointer-events-none"
-                style={{ background: "radial-gradient(circle, #3b82f6, transparent 70%)" }}
+                className="absolute bottom-[18%] right-[12%] w-[780px] h-[780px] rounded-full opacity-[0.015] pointer-events-none"
+                style={{ background: "radial-gradient(circle, #4A73C4, transparent 70%)" }}
             />
             <div
-                className="absolute top-[45%] left-[45%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full opacity-[0.015] pointer-events-none"
-                style={{ background: "radial-gradient(circle, #D4AF37, transparent 70%)" }}
+                className="absolute top-[42%] left-[48%] -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full opacity-[0.02] pointer-events-none"
+                style={{ background: "radial-gradient(circle, #B8943A, transparent 70%)" }}
             />
 
             <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
                     background:
-                        "radial-gradient(ellipse at center, transparent 40%, #030014 100%)",
+                        "radial-gradient(ellipse at center, transparent 38%, #05040f 100%)",
                 }}
             />
         </div>

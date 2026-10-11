@@ -6,6 +6,27 @@ import { Briefcase, Calendar, Terminal, MapPin } from "lucide-react";
 
 const experiences = [
     {
+        role: "Working Student — Software Engineer",
+        company: "EQS Group",
+        period: "Mar 2026 — Present",
+        location: "Germany · Hybrid",
+        isActive: true,
+        story:
+            "Building enterprise AI for regulated compliance — contributing to RAG systems and Q by EQS, the platform's new AI intelligence layer.",
+        highlights: [
+            "Developing Retrieval-Augmented Generation (RAG) pipelines for grounded, context-aware AI answers over compliance data",
+            "Contributing to Q by EQS — the AI-native layer inside the Compliance Cockpit for case intelligence and policy assistance",
+            "Working with case data, policy libraries, disclosures, and workflow history under strict permission and audit controls",
+            "Supporting AI capabilities for whistleblowing triage, case classification, and explainable recommendations",
+            "Collaborating with product and engineering teams to ship governed AI features for enterprise customers",
+        ],
+        metrics: [
+            { label: "Focus", value: "RAG" },
+            { label: "Product", value: "Q by EQS" },
+            { label: "Domain", value: "Compliance AI" },
+        ],
+    },
+    {
         role: "Associate Project Manager & AI Engineer",
         company: "Heybobo.ai",
         period: "Jul 2025 — Mar 2026",
@@ -55,7 +76,7 @@ const ChapterExperience = () => {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section id="experience" className="relative py-32">
+        <section id="experience" className="section-shell">
             <div className="max-w-5xl mx-auto px-6">
                 <motion.div
                     ref={ref}
@@ -73,8 +94,8 @@ const ChapterExperience = () => {
                         <span className="text-gradient-solar">History</span>
                     </h2>
                     <p className="text-lg text-muted max-w-2xl mx-auto leading-relaxed">
-                        Building, leading, and shipping — from early-stage coordination
-                        to managing 40+ engineers and architecting AI systems.
+                        From leading 40+ engineers to shipping enterprise RAG and Q by EQS —
+                        building AI that works in the real world.
                     </p>
                 </motion.div>
 

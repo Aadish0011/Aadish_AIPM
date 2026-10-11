@@ -50,7 +50,7 @@ const ChapterEducation = () => {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section id="education" className="relative py-32">
+        <section id="education" className="section-shell">
             <div className="max-w-5xl mx-auto px-6">
                 <motion.div
                     ref={ref}

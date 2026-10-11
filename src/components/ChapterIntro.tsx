@@ -2,9 +2,43 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
-import { Cpu, Shield, Users, Globe, ArrowDown } from "lucide-react";
+import { ArrowDown, Sparkles } from "lucide-react";
+import Magnetic from "./Magnetic";
 
-const roles = ["AI Engineer", "Product Leader", "Patent Holder", "Team Builder"];
+const roles = ["AI Engineer", "RAG Builder", "Agent Architect", "Product Leader"];
+
+const FLOAT_CHIPS = [
+    { label: "LangGraph", className: "top-[18%] left-[6%] md:left-[12%] animate-float" },
+    { label: "RAG", className: "top-[28%] right-[8%] md:right-[14%] animate-float-delayed" },
+    { label: "Q by EQS", className: "bottom-[30%] left-[8%] md:left-[16%] animate-float-slow" },
+    { label: "Python", className: "bottom-[22%] right-[10%] md:right-[18%] animate-float" },
+    { label: "40+ Led", className: "top-[42%] left-[2%] md:left-[6%] hidden sm:block animate-float-delayed" },
+    { label: "3 Patents", className: "top-[48%] right-[2%] md:right-[7%] hidden sm:block animate-float-slow" },
+];
+
+function KineticWord({ word, delay = 0 }: { word: string; delay?: number }) {
+    return (
+        <span className="inline-flex">
+            {word.split("").map((char, i) => (
+                <motion.span
+                    key={`${char}-${i}`}
+                    initial={{ opacity: 0, y: 40, rotateX: -40 }}
+                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 220,
+                        damping: 18,
+                        delay: delay + i * 0.035,
+                    }}
+                    className="inline-block origin-bottom cursor-grow hover:-translate-y-1 hover:text-solar transition-colors duration-200"
+                    style={{ display: "inline-block" }}
+                >
+                    {char}
+                </motion.span>
+            ))}
+        </span>
+    );
+}
 
 const ChapterIntro = () => {
     const ref = useRef(null);
@@ -18,7 +52,7 @@ const ChapterIntro = () => {
         let timeout: NodeJS.Timeout;
 
         if (!isDeleting && displayText === currentRole) {
-            timeout = setTimeout(() => setIsDeleting(true), 2200);
+            timeout = setTimeout(() => setIsDeleting(true), 2000);
         } else if (isDeleting && displayText === "") {
             setIsDeleting(false);
             setRoleIndex((prev) => (prev + 1) % roles.length);
@@ -31,158 +65,125 @@ const ChapterIntro = () => {
                             : currentRole.slice(0, displayText.length + 1)
                     );
                 },
-                isDeleting ? 35 : 75
+                isDeleting ? 30 : 70
             );
         }
 
         return () => clearTimeout(timeout);
     }, [displayText, isDeleting, roleIndex]);
 
-    const stats = [
-        { icon: Cpu, value: "3", label: "Patents Filed" },
-        { icon: Users, value: "40+", label: "Engineers Led" },
-        { icon: Globe, value: "2000+", label: "Users Impacted" },
-        { icon: Shield, value: "80%", label: "AI Accuracy" },
-    ];
-
     return (
         <section
             id="intro"
             ref={ref}
-            className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+            className="relative min-h-[100svh] flex items-center justify-center overflow-hidden"
         >
-            {/* Orbital rings decoration */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
-                <div className="w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[800px] lg:h-[800px] rounded-full border border-black/[0.03] dark:border-white/[0.03] animate-orbit" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] md:w-[480px] md:h-[480px] lg:w-[550px] lg:h-[550px] rounded-full border border-solar/[0.08] dark:border-solar/[0.05] animate-orbit-reverse" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] md:w-[260px] md:h-[260px] lg:w-[300px] lg:h-[300px] rounded-full border border-black/[0.03] dark:border-white/[0.04] animate-orbit-slow" />
+            <div className="absolute inset-0 pointer-events-none select-none">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <div className="w-[min(92vw,820px)] h-[min(92vw,820px)] rounded-full border border-dashed border-white/[0.04] animate-orbit" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(68vw,580px)] h-[min(68vw,580px)] rounded-full border border-solar/[0.1] animate-orbit-reverse" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(42vw,340px)] h-[min(42vw,340px)] rounded-full border border-play/[0.12] animate-orbit-slow" />
 
-                {/* Orbital planet dots */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-solar/50 shadow-[0_0_12px_rgba(212,175,55,0.4)]" />
-                <div className="absolute bottom-[20%] right-0 w-1.5 h-1.5 rounded-full bg-nebula-blue/50 shadow-[0_0_10px_rgba(59,130,246,0.4)]" />
-                <div className="absolute top-[30%] left-0 w-1 h-1 rounded-full bg-nebula-purple/50 shadow-[0_0_8px_rgba(139,92,246,0.4)]" />
-            </div>
-
-            <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                    {/* Text */}
-                    <div className="order-2 lg:order-1">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.6 }}
-                            className="section-label mb-8"
-                        >
-                            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                            Available for opportunities
-                        </motion.div>
-
-                        <motion.h1
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.8, delay: 0.15 }}
-                            className="text-5xl md:text-7xl lg:text-[5.5rem] font-display font-bold tracking-tight text-white mb-4 leading-[0.95]"
-                        >
-                            Aadish
-                            <br />
-                            <span className="text-gradient-solar">Parashar</span>
-                        </motion.h1>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.8, delay: 0.3 }}
-                            className="h-10 mb-8"
-                        >
-                            <span className="text-xl md:text-2xl text-muted font-light">
-                                {displayText}
-                                <span className="inline-block w-[2px] h-6 bg-solar ml-1 animate-pulse align-middle" />
-                            </span>
-                        </motion.div>
-
-                        <motion.p
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.8, delay: 0.45 }}
-                            className="text-lg text-muted max-w-lg mb-10 leading-relaxed"
-                        >
-                            I architect{" "}
-                            <span className="text-white font-medium">AI systems</span> that
-                            perceive, build infrastructure that scales, and lead teams that
-                            ship real products.
-                        </motion.p>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.8, delay: 0.6 }}
-                            className="flex flex-wrap gap-4"
-                        >
-                            <a
-                                href="#projects"
-                                className="px-7 py-3.5 rounded-lg bg-solar text-void font-display font-bold text-sm tracking-wide hover:bg-solar-bright transition-all duration-300 glow-solar"
-                            >
-                                View Projects
-                            </a>
-                            <a
-                                href="#experience"
-                                className="px-7 py-3.5 rounded-lg border border-white/10 text-white font-display font-bold text-sm tracking-wide hover:bg-white/5 hover:border-white/20 transition-all duration-300"
-                            >
-                                My Journey
-                            </a>
-                        </motion.div>
-                    </div>
-
-                    {/* Stats Grid */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                        transition={{ duration: 1, delay: 0.3 }}
-                        className="order-1 lg:order-2"
-                    >
-                        <div className="grid grid-cols-2 gap-4">
-                            {stats.map((stat, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                                    transition={{ duration: 0.6, delay: 0.4 + i * 0.1 }}
-                                    className="glass glass-hover rounded-xl p-6 group"
-                                >
-                                    <stat.icon
-                                        className="text-subtle mb-4 group-hover:text-solar transition-colors duration-300"
-                                        size={22}
-                                    />
-                                    <div className="text-3xl md:text-4xl font-display font-bold text-white mb-1">
-                                        {stat.value}
-                                    </div>
-                                    <div className="text-xs text-muted tracking-wider uppercase font-medium">
-                                        {stat.label}
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </motion.div>
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 md:w-40 md:h-40 rounded-full"
+                        style={{
+                            background:
+                                "radial-gradient(circle, rgba(61,184,160,0.18) 0%, rgba(184,148,58,0.12) 40%, transparent 70%)",
+                        }}
+                        animate={{ scale: [1, 1.08, 1], rotate: [0, 8, 0] }}
+                        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                    />
                 </div>
 
-                {/* Scroll indicator */}
+                {FLOAT_CHIPS.map((chip) => (
+                    <div key={chip.label} className={`chip-float ${chip.className}`}>
+                        {chip.label}
+                    </div>
+                ))}
+
+                <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#f7f5f0] dark:from-[#05040f] to-transparent" />
+            </div>
+
+            <div className="relative z-10 max-w-5xl mx-auto px-6 w-full pt-24 pb-28 text-center">
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 2.5, duration: 1 }}
-                    className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+                    initial={{ opacity: 0, scale: 0.9, y: 12 }}
+                    animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
+                    transition={{ type: "spring", stiffness: 200, damping: 18 }}
+                    className="section-label mb-8"
                 >
-                    <span className="text-[11px] text-subtle font-mono tracking-[0.2em] uppercase">
-                        Scroll to explore
+                    <Sparkles size={12} className="text-play" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-play animate-pulse" />
+                    Building AI at EQS · Open to collabs
+                </motion.div>
+
+                <h1 className="font-display font-bold tracking-tight text-white leading-[0.9] mb-6">
+                    <span className="block text-[clamp(3.2rem,11vw,7.2rem)]">
+                        <KineticWord word="AADISH" />
                     </span>
-                    <motion.div
-                        animate={{ y: [0, 8, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                        <ArrowDown size={16} className="text-solar/60" />
-                    </motion.div>
+                    <span className="block text-[clamp(2.2rem,7.5vw,4.8rem)] text-gradient-play mt-2">
+                        <KineticWord word="PARASHAR" delay={0.25} />
+                    </span>
+                </h1>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.55 }}
+                    className="h-9 mb-6 flex items-center justify-center"
+                >
+                    <span className="px-4 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-base md:text-lg text-muted font-light tracking-wide">
+                        {displayText}
+                        <span className="inline-block w-[2px] h-4 bg-play ml-1 animate-pulse align-middle" />
+                    </span>
+                </motion.div>
+
+                <motion.p
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.65 }}
+                    className="text-base md:text-lg text-muted max-w-xl mx-auto mb-10 leading-relaxed"
+                >
+                    I design{" "}
+                    <span className="text-white font-medium">RAG pipelines</span>, agentic
+                    systems, and products that feel smart — currently shipping{" "}
+                    <span className="text-play font-medium">Q by EQS</span>.
+                </motion.p>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.75 }}
+                    className="flex flex-wrap items-center justify-center gap-3"
+                >
+                    <Magnetic>
+                        <a href="#projects" className="btn-primary cursor-grow">
+                            Explore Projects
+                        </a>
+                    </Magnetic>
+                    <Magnetic>
+                        <a href="#experience" className="btn-ghost cursor-grow">
+                            See Journey
+                        </a>
+                    </Magnetic>
                 </motion.div>
             </div>
+
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.8 }}
+                className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+            >
+                <span className="text-[10px] text-subtle tracking-[0.22em] uppercase">
+                    Scroll to play
+                </span>
+                <motion.div
+                    animate={{ y: [0, 8, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                >
+                    <ArrowDown size={15} className="text-play/80" />
+                </motion.div>
+            </motion.div>
         </section>
     );
 };

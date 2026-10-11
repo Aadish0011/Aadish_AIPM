@@ -10,28 +10,33 @@ const config: Config = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-                display: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
+                sans: ["var(--font-outfit)", "system-ui", "sans-serif"],
+                display: ["var(--font-syne)", "system-ui", "sans-serif"],
             },
             colors: {
-                void: "#030014",
+                void: "#05040f",
                 surface: {
-                    DEFAULT: "#0a0a1a",
-                    light: "#111127",
-                    lighter: "#1a1a3e",
+                    DEFAULT: "#0c0b1a",
+                    light: "#141328",
+                    lighter: "#1c1a36",
                 },
                 solar: {
-                    DEFAULT: "#D4AF37",
-                    bright: "#F1C40F",
-                    dim: "#8B6914",
+                    DEFAULT: "#B8943A",
+                    bright: "#C9A84A",
+                    dim: "#7A6420",
                 },
                 nebula: {
-                    blue: "#3b82f6",
-                    purple: "#8b5cf6",
+                    blue: "#4A73C4",
+                    purple: "#6558B8",
                 },
-                foreground: "#f1f5f9",
-                muted: "#94a3b8",
-                subtle: "#475569",
+                play: {
+                    DEFAULT: "#3DB8A0",
+                    soft: "#6FD0BB",
+                    dim: "#2A8A76",
+                },
+                foreground: "#e4e2dc",
+                muted: "#8a93a5",
+                subtle: "#555e70",
             },
             animation: {
                 orbit: "orbit 60s linear infinite",
@@ -39,8 +44,11 @@ const config: Config = {
                 "orbit-slow": "orbit 90s linear infinite",
                 float: "float 6s ease-in-out infinite",
                 "float-delayed": "float 8s ease-in-out 2s infinite",
+                "float-slow": "float 10s ease-in-out 1s infinite",
                 "pulse-glow": "pulse-glow 3s ease-in-out infinite",
                 twinkle: "twinkle 4s ease-in-out infinite",
+                "fade-up": "fade-up 0.8s ease-out both",
+                wiggle: "wiggle 2.8s ease-in-out infinite",
             },
             keyframes: {
                 orbit: {
@@ -49,7 +57,7 @@ const config: Config = {
                 },
                 float: {
                     "0%, 100%": { transform: "translateY(0px)" },
-                    "50%": { transform: "translateY(-20px)" },
+                    "50%": { transform: "translateY(-16px)" },
                 },
                 "pulse-glow": {
                     "0%, 100%": { opacity: "0.4", transform: "scale(1)" },
@@ -58,6 +66,14 @@ const config: Config = {
                 twinkle: {
                     "0%, 100%": { opacity: "0.2" },
                     "50%": { opacity: "1" },
+                },
+                "fade-up": {
+                    "0%": { opacity: "0", transform: "translateY(16px)" },
+                    "100%": { opacity: "1", transform: "translateY(0)" },
+                },
+                wiggle: {
+                    "0%, 100%": { transform: "rotate(-2deg)" },
+                    "50%": { transform: "rotate(2deg)" },
                 },
             },
         },

@@ -24,7 +24,7 @@ const ChapterNav = () => {
     const isDark = theme === "dark";
 
     useEffect(() => {
-        const handleScroll = () => setIsScrolled(window.scrollY > 50);
+        const handleScroll = () => setIsScrolled(window.scrollY > 40);
 
         const observer = new IntersectionObserver(
             (entries) => {
@@ -52,69 +52,88 @@ const ChapterNav = () => {
     return (
         <>
             <motion.nav
-                initial={{ y: -100, opacity: 0 }}
+                initial={{ y: -80, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
-                    isScrolled
-                        ? isDark
-                            ? "py-3 border-b border-white/[0.06]"
-                            : "py-3 border-b border-slate-200/80"
-                        : "py-5 border-b border-transparent"
-                }`}
-                style={{
-                    backgroundColor: isScrolled
-                        ? isDark
-                            ? "rgba(3, 0, 20, 0.8)"
-                            : "rgba(248, 250, 252, 0.9)"
-                        : "transparent",
-                    backdropFilter: isScrolled ? "blur(20px) saturate(1.2)" : "none",
-                }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-4 pt-3 sm:pt-4"
             >
-                <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-                    <Link href="/" className="flex items-center gap-3 group">
-                        <div className="relative w-9 h-9 rounded-lg overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-solar to-solar-bright" />
+                <div
+                    className={`max-w-6xl mx-auto flex items-center justify-between gap-3 px-3 sm:px-4 transition-all duration-500 ${
+                        isScrolled
+                            ? "py-2.5 rounded-2xl border backdrop-blur-2xl"
+                            : "py-2 border border-transparent"
+                    }`}
+                    style={
+                        isScrolled
+                            ? {
+                                  backgroundColor: isDark
+                                      ? "rgba(8, 7, 22, 0.72)"
+                                      : "rgba(255, 255, 255, 0.78)",
+                                  borderColor: isDark
+                                      ? "rgba(255,255,255,0.08)"
+                                      : "rgba(15,23,42,0.08)",
+                                  boxShadow: isDark
+                                      ? "0 10px 40px rgba(0,0,0,0.35)"
+                                      : "0 10px 40px rgba(15,23,42,0.08)",
+                              }
+                            : undefined
+                    }
+                >
+                    <Link href="/" className="flex items-center gap-2.5 group shrink-0">
+                        <div className="relative w-9 h-9 rounded-xl overflow-hidden">
+                            <div className="absolute inset-0 bg-gradient-to-br from-solar via-solar-bright to-solar-dim" />
                             <div className="relative w-full h-full flex items-center justify-center font-display font-bold text-sm text-void">
                                 AP
                             </div>
                         </div>
-                        <span className="text-lg font-display font-bold tracking-tight text-slate-900 dark:text-white hidden sm:block group-hover:text-solar transition-colors duration-300">
+                        <span className="text-[15px] font-display font-bold tracking-tight text-slate-900 dark:text-white hidden sm:block group-hover:text-solar transition-colors duration-300">
                             AADISH
                         </span>
                     </Link>
 
-                    <div className="hidden lg:flex items-center gap-0.5">
+                    <div
+                        className={`hidden lg:flex items-center gap-0.5 px-1.5 py-1 rounded-full ${
+                            isScrolled
+                                ? ""
+                                : isDark
+                                  ? "bg-white/[0.03] border border-white/[0.06]"
+                                  : "bg-white/60 border border-slate-200/80 shadow-sm"
+                        }`}
+                    >
                         {chapters.map((chapter) => (
                             <Link
                                 key={chapter.id}
                                 href={`#${chapter.id}`}
-                                className={`relative px-4 py-2 text-[13px] font-medium tracking-wide transition-all duration-300 rounded-md ${
+                                className={`relative px-3.5 py-1.5 text-[12px] font-medium tracking-wide transition-all duration-300 rounded-full ${
                                     activeSection === chapter.id
-                                        ? "text-solar"
+                                        ? "text-void"
                                         : "text-slate-600 dark:text-muted hover:text-slate-900 dark:hover:text-white"
                                 }`}
                             >
-                                {chapter.label}
                                 {activeSection === chapter.id && (
                                     <motion.div
                                         layoutId="nav-active"
-                                        className="absolute bottom-0 left-3 right-3 h-[2px] bg-solar rounded-full"
-                                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                                        className="absolute inset-0 rounded-full bg-solar"
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 420,
+                                            damping: 32,
+                                        }}
                                     />
                                 )}
+                                <span className="relative z-10">{chapter.label}</span>
                             </Link>
                         ))}
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
                         <ThemeToggle />
                         <Link
                             href="#closing"
-                            className="hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-lg bg-solar text-void font-display font-bold text-sm tracking-wide hover:bg-solar-bright transition-all duration-300 glow-solar"
+                            className="hidden lg:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-solar text-void font-display font-bold text-[13px] tracking-wide hover:bg-solar-bright transition-all duration-300"
                         >
                             Let&apos;s Talk
-                            <ArrowUpRight size={14} />
+                            <ArrowUpRight size={13} />
                         </Link>
 
                         <button
@@ -122,7 +141,7 @@ const ChapterNav = () => {
                             className="lg:hidden p-2 text-slate-700 dark:text-white hover:text-solar transition-colors"
                             aria-label="Toggle navigation menu"
                         >
-                            {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
+                            {isMobileOpen ? <X size={22} /> : <Menu size={22} />}
                         </button>
                     </div>
                 </div>
@@ -134,20 +153,22 @@ const ChapterNav = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.25 }}
                         className="fixed inset-0 z-40 lg:hidden"
                         style={{
-                            backgroundColor: isDark ? "rgba(3, 0, 20, 0.95)" : "rgba(248, 250, 252, 0.98)",
+                            backgroundColor: isDark
+                                ? "rgba(5, 4, 15, 0.96)"
+                                : "rgba(247, 245, 240, 0.98)",
                             backdropFilter: "blur(24px)",
                         }}
                     >
-                        <div className="flex flex-col items-center justify-center h-full gap-8">
+                        <div className="flex flex-col items-center justify-center h-full gap-7 px-6">
                             {chapters.map((chapter, i) => (
                                 <motion.div
                                     key={chapter.id}
-                                    initial={{ opacity: 0, y: 20 }}
+                                    initial={{ opacity: 0, y: 18 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: i * 0.06 }}
+                                    transition={{ delay: i * 0.05 }}
                                 >
                                     <Link
                                         href={`#${chapter.id}`}
@@ -163,14 +184,14 @@ const ChapterNav = () => {
                                 </motion.div>
                             ))}
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 18 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.4 }}
+                                transition={{ delay: 0.35 }}
                             >
                                 <Link
                                     href="#closing"
                                     onClick={() => setIsMobileOpen(false)}
-                                    className="mt-6 inline-flex px-8 py-3 bg-solar text-void font-display font-bold text-lg rounded-lg"
+                                    className="mt-4 inline-flex px-8 py-3 bg-solar text-void font-display font-bold text-lg rounded-xl"
                                 >
                                     Let&apos;s Talk
                                 </Link>

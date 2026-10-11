@@ -9,16 +9,20 @@ import ChapterAchievements from "@/components/ChapterAchievements";
 import ChapterClosing from "@/components/ChapterClosing";
 import StoryProgress from "@/components/StoryProgress";
 import AIAssistant from "@/components/AIAssistant";
+import TechMarquee from "@/components/TechMarquee";
+import CustomCursor from "@/components/CustomCursor";
 
 export default function Home() {
     return (
-        <main className="relative min-h-screen text-foreground bg-transparent selection:bg-solar/30 selection:text-white">
+        <main className="relative min-h-screen text-foreground bg-transparent selection:bg-play/25 selection:text-white">
             <GalaxyBackground />
+            <CustomCursor />
             <StoryProgress />
             <ChapterNav />
 
             <div className="relative z-10">
                 <ChapterIntro />
+                <TechMarquee />
                 <ChapterEducation />
                 <ChapterSkills />
                 <ChapterProjects />

@@ -52,7 +52,7 @@ const ChapterAchievements = () => {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section id="achievements" className="relative py-32">
+        <section id="achievements" className="section-shell">
             <div className="max-w-6xl mx-auto px-6">
                 <motion.div
                     ref={ref}

@@ -8,9 +8,27 @@ import {
     Sparkles,
     MessageCircle,
     ExternalLink,
+    Briefcase,
+    Code2,
+    GraduationCap,
+    User,
 } from "lucide-react";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, type ReactNode } from "react";
 import { useTheme } from "./ThemeProvider";
+
+function formatMessage(text: string): ReactNode[] {
+    const parts = text.split(/(\*\*[^*]+\*\*)/g);
+    return parts.map((part, i) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+            return (
+                <strong key={i} className="font-semibold text-inherit">
+                    {part.slice(2, -2)}
+                </strong>
+            );
+        }
+        return <span key={i}>{part}</span>;
+    });
+}
 
 // ---------------------------------------------------------------------------
 // Types
@@ -59,10 +77,10 @@ const intents: Intent[] = [
             "what does he do", "what do you do",
         ],
         response: [
-            "Aadish Parashar is an AI Engineer and Product Leader currently pursuing his Master's in AI & Data Science at Deggendorf Institute of Technology, Germany.\n\nHere's a quick snapshot:\n• Led 40+ engineers and architected 3 AI modules at Heybobo.ai\n• 3 published patents (including a govt-funded one)\n• Built AI systems impacting 2000+ users\n• Designed agentic workflows with LangGraph\n• Competitive chess player with IIT-level medals\n\nHe's passionate about building AI that actually works for real people — not just in demos.",
-            "Aadish is an AI Engineer who bridges the gap between building intelligent systems and leading product teams. He's currently pursuing his MS in AI & Data Science in Germany, after managing 40+ engineers and architecting agentic AI systems at Heybobo.ai.\n\nHe holds 3 patents, has shipped AI products with 80%+ accuracy, designed autonomous AI agents with LangGraph, and has chess medals from IIT-level tournaments. A unique blend of deep technical skill and leadership.",
+            "Aadish Parashar is an AI Engineer and Product Leader currently pursuing his Master's in AI & Data Science at Deggendorf Institute of Technology, Germany — while working at EQS Group on enterprise RAG and Q by EQS.\n\nHere's a quick snapshot:\n• Working Student Software Engineer at EQS Group (RAG + Q by EQS)\n• Led 40+ engineers and architected 3 AI modules at Heybobo.ai\n• 3 published patents (including a govt-funded one)\n• Built AI systems impacting 2000+ users\n• Designed agentic workflows with LangGraph\n\nHe's passionate about building AI that actually works for real people — not just in demos.",
+            "Aadish is an AI Engineer who bridges building intelligent systems and leading product teams. He's currently a Working Student Software Engineer at EQS Group in Germany — contributing to RAG systems and Q by EQS — while pursuing his MS in AI & Data Science.\n\nPreviously he managed 40+ engineers at Heybobo.ai, holds 3 patents, and has shipped AI products with 80%+ accuracy. A unique blend of deep technical skill and leadership.",
         ],
-        followUp: ["What are his skills?", "Show me projects", "Work experience"],
+        followUp: ["Tell me about EQS", "What are his skills?", "Work experience"],
     },
 
     // ── Projects ───────────────────────────────────────────────────────
@@ -107,18 +125,39 @@ const intents: Intent[] = [
             "where has he worked", "where did he work",
         ],
         response:
-            "Aadish has impressive industry experience:\n\n🟢 **Associate PM & AI Engineer — Heybobo.ai** (Jul 2025 – Mar 2026)\nBengaluru, India · Full-time\n• Managed 40+ engineers across UI/UX, Frontend, Backend, AI/ML, and DevOps\n• Architected 3 AI modules: Health Intelligence, Adaptive Learning, Grooming Personalization\n• Designed agentic workflows with LangGraph for multi-step reasoning\n• Built LLM-powered pipelines with tool-calling and contextual memory\n• Delivered AI-first features from concept to production\n\n⚡ **Engineering Coordinator / PM — Shinkan Pvt. Ltd.** (Aug 2024 – Jul 2025)\n• Fine-tuned COCO-SSD for proctored exam monitoring\n• Managed 10+ engineers; improved system scalability by 50%\n• Built real-time exam monitoring infrastructure\n\nHe's now pursuing his Master's in Germany, continuing to grow at the intersection of AI and product leadership.",
-        followUp: ["What about Heybobo specifically?", "Shinkan details", "His education?"],
+            "Aadish has impressive industry experience:\n\n🟢 **Working Student Software Engineer — EQS Group** (Mar 2026 – Present)\nGermany · Current\n• Building RAG pipelines for grounded enterprise AI over compliance data\n• Contributing to Q by EQS — the AI intelligence layer inside the Compliance Cockpit\n• Working on case intelligence, policy assistance, and governed AI workflows\n\n🟡 **Associate PM & AI Engineer — Heybobo.ai** (Jul 2025 – Mar 2026)\nBengaluru, India · Full-time\n• Managed 40+ engineers across UI/UX, Frontend, Backend, AI/ML, and DevOps\n• Architected 3 AI modules: Health Intelligence, Adaptive Learning, Grooming Personalization\n• Designed agentic workflows with LangGraph for multi-step reasoning\n\n⚡ **Engineering Coordinator / PM — Shinkan Pvt. Ltd.** (Aug 2024 – Jul 2025)\n• Fine-tuned COCO-SSD for proctored exam monitoring\n• Managed 10+ engineers; improved system scalability by 50%\n\nHe's growing at the intersection of enterprise AI, RAG, and product leadership.",
+        followUp: ["Tell me about EQS", "What about Heybobo?", "Shinkan details"],
+    },
+    {
+        id: "eqs",
+        keywords: [
+            "eqs", "eqs group", "eqs groups", "working student", "q by eqs",
+            "compliance", "rag", "retrieval", "current job", "current role",
+            "latest job", "what is he doing now", "where does he work",
+        ],
+        response:
+            "At **EQS Group** (Mar 2026 – Present), Aadish works as a **Working Student Software Engineer** while pursuing his Master's in Germany.\n\n**What he's building:**\n• **RAG systems** — retrieval-augmented generation pipelines that ground AI answers in real compliance data (policies, cases, disclosures)\n• **Q by EQS** — the new AI-native intelligence layer inside the EQS Compliance Cockpit\n\n**Impact of Q:**\nQ helps compliance teams with case intelligence, whistleblowing triage, case classification, and policy assistance — all inside a governed enterprise environment with audit trails and human oversight.\n\nThis role sits right at the cutting edge of enterprise AI: not demos, but production AI for regulated industries.",
+        followUp: ["What is RAG?", "Tell me about Heybobo", "His skills"],
+    },
+    {
+        id: "rag",
+        keywords: [
+            "rag", "retrieval augmented", "retrieval-augmented", "embeddings",
+            "vector", "knowledge base", "document retrieval",
+        ],
+        response:
+            "RAG (Retrieval-Augmented Generation) is a core focus of Aadish's current work at **EQS Group**.\n\nInstead of letting an LLM guess, RAG retrieves relevant documents/context first, then generates answers grounded in that data — critical for compliance where accuracy and auditability matter.\n\nAt EQS, he contributes to RAG pipelines that power **Q by EQS**, helping the platform answer questions over case data, policy libraries, and workflow history with permission controls and explainability.\n\nHe also has strong LLM/agentic experience from Heybobo (LangGraph, prompt engineering, tool-calling) that complements this enterprise RAG work.",
+        followUp: ["Tell me about EQS", "Q by EQS details", "AI/ML skills"],
     },
     {
         id: "heybobo",
         keywords: [
-            "heybobo", "hey bobo", "current job", "current role", "latest job",
+            "heybobo", "hey bobo",
             "associate project manager", "apm",
         ],
         response:
-            "At **Heybobo.ai** (Jul 2025 – Mar 2026), Aadish had a dual role as Associate PM and AI Engineer in Bengaluru:\n\n**Leadership & Execution:**\n• Managed 40+ engineers across UI/UX, Frontend, Backend, AI/ML, and DevOps\n• Drove sprint planning, roadmap execution, release cycles, and cross-team alignment\n• Translated product vision into scalable AI system architecture\n\n**AI Engineering & Architecture:**\nArchitected 3 intelligent AI modules:\n• Health Intelligence Module\n• Education & Adaptive Learning Module\n• Grooming & Lifestyle Personalization Module\n\n**Technical Contributions:**\n• Designed agentic workflows using LangGraph for multi-step reasoning\n• Built LLM-powered pipelines with structured prompt engineering\n• Developed autonomous AI agents with tool-calling and contextual memory\n• Integrated AI systems with APIs, databases, and external services\n\n**Impact:** Delivered AI-first features from concept to production, improving personalization and intelligent automation.\n\nHe left to pursue his Master's in AI & Data Science in Germany.",
-        followUp: ["What about Shinkan?", "AI modules he built", "Skills overview"],
+            "At **Heybobo.ai** (Jul 2025 – Mar 2026), Aadish had a dual role as Associate PM and AI Engineer in Bengaluru:\n\n**Leadership & Execution:**\n• Managed 40+ engineers across UI/UX, Frontend, Backend, AI/ML, and DevOps\n• Drove sprint planning, roadmap execution, release cycles, and cross-team alignment\n• Translated product vision into scalable AI system architecture\n\n**AI Engineering & Architecture:**\nArchitected 3 intelligent AI modules:\n• Health Intelligence Module\n• Education & Adaptive Learning Module\n• Grooming & Lifestyle Personalization Module\n\n**Technical Contributions:**\n• Designed agentic workflows using LangGraph for multi-step reasoning\n• Built LLM-powered pipelines with structured prompt engineering\n• Developed autonomous AI agents with tool-calling and contextual memory\n• Integrated AI systems with APIs, databases, and external services\n\n**Impact:** Delivered AI-first features from concept to production, improving personalization and intelligent automation.\n\nHe then moved to Germany for his Master's and joined EQS Group as a Working Student Software Engineer.",
+        followUp: ["Tell me about EQS", "What about Shinkan?", "Skills overview"],
     },
     {
         id: "shinkan",
@@ -141,8 +180,8 @@ const intents: Intent[] = [
             "what does he know", "what he knows",
         ],
         response:
-            "Aadish has a strong and diverse technical skill set:\n\n🧠 **AI & Machine Learning**\nLLMs (T5, Qwen, TinyLLaMA), LangChain, LangGraph, Agentic Workflows, TensorFlow, PyTorch, OpenCV, Scikit-learn, Prompt Engineering\n\n💻 **Languages & Backend**\nPython (primary), Java, SQL, FastAPI, MySQL\n\n📊 **Data & Visualization**\nPandas, NumPy, Power BI, Tableau, Excel\n\n🚀 **Product & Leadership**\nAgile PM, Sprint Planning, Roadmapping, Cross-functional Team Leadership (40+), Release Cycles, Technical Documentation\n\nHe's strongest in AI/ML engineering and agentic AI architecture, but equally comfortable leading product and managing large cross-functional teams.",
-        followUp: ["Python expertise?", "AI/ML details", "Leadership style?"],
+            "Aadish has a strong and diverse technical skill set:\n\n🧠 **AI & Machine Learning**\nRAG Systems, LLMs (T5, Qwen, TinyLLaMA), LangChain, LangGraph, Agentic Workflows, TensorFlow, PyTorch, OpenCV, Scikit-learn, Prompt Engineering\n\n💻 **Languages & Backend**\nPython (primary), Java, SQL, FastAPI, MySQL\n\n📊 **Data & Visualization**\nPandas, NumPy, Power BI, Tableau, Excel\n\n🚀 **Product & Leadership**\nAgile PM, Sprint Planning, Roadmapping, Cross-functional Team Leadership (40+), Release Cycles, Technical Documentation\n\nHe's currently applying RAG and enterprise AI skills at EQS Group (Q by EQS), with deep agentic AI experience from Heybobo.",
+        followUp: ["Tell me about EQS", "AI/ML details", "Leadership style?"],
     },
     {
         id: "python",
@@ -180,8 +219,8 @@ const intents: Intent[] = [
             "fine-tuning", "fine tuning",
         ],
         response:
-            "AI and ML are Aadish's core strengths. Here's what he works with:\n\n**Large Language Models**: Google T5, Qwen, TinyLLaMA — fine-tuning, deployment, and prompt engineering\n**Agentic AI**: LangGraph, LangChain for multi-agent and workflow systems\n**Deep Learning**: TensorFlow, PyTorch — custom architectures, CNNs, model optimization\n**Computer Vision**: OpenCV, COCO-SSD — real-time object detection and liveness detection\n**NLP**: Chatbot automation, text classification, intent recognition\n\nHe doesn't just *use* AI frameworks — he builds end-to-end systems that ship to real users.",
-        followUp: ["Show me his AI projects", "LLM experience?", "Team leadership"],
+            "AI and ML are Aadish's core strengths. Here's what he works with:\n\n**RAG & Enterprise AI**: Building retrieval-augmented generation at EQS Group for Q by EQS\n**Large Language Models**: Google T5, Qwen, TinyLLaMA — fine-tuning, deployment, and prompt engineering\n**Agentic AI**: LangGraph, LangChain for multi-agent and workflow systems\n**Deep Learning**: TensorFlow, PyTorch — custom architectures, CNNs, model optimization\n**Computer Vision**: OpenCV, COCO-SSD — real-time object detection and liveness detection\n**NLP**: Chatbot automation, text classification, intent recognition\n\nHe doesn't just *use* AI frameworks — he builds end-to-end systems that ship to real users.",
+        followUp: ["Tell me about EQS", "Show me his AI projects", "Team leadership"],
     },
     {
         id: "data-viz",
@@ -215,8 +254,8 @@ const intents: Intent[] = [
             "currently",
         ],
         response:
-            "Aadish is currently pursuing his **Master of Science in Artificial Intelligence and Data Science** at the **Deggendorf Institute of Technology** in Germany (started March 2026).\n\nAfter gaining strong industry experience leading AI teams in India, he moved to Germany to deepen his research skills and gain an international perspective on AI engineering.\n\nIt's a natural next step — combining his practical AI shipping experience with advanced academic rigor.",
-        followUp: ["His undergrad?", "Why did he leave Heybobo?", "Career goals?"],
+            "Aadish is currently pursuing his **Master of Science in Artificial Intelligence and Data Science** at the **Deggendorf Institute of Technology** in Germany (started March 2026).\n\nAlongside his studies, he works as a **Working Student Software Engineer at EQS Group**, contributing to RAG systems and **Q by EQS** — the company's AI intelligence layer for enterprise compliance.\n\nAfter leading AI teams in India, he moved to Germany to deepen his research skills while shipping real enterprise AI. Academic rigor + production impact.",
+        followUp: ["Tell me about EQS", "His undergrad?", "Career goals?"],
     },
     {
         id: "chitkara",
@@ -283,8 +322,8 @@ const intents: Intent[] = [
             "what sets him apart", "why him", "convince me",
         ],
         response:
-            "Here's what makes Aadish stand out:\n\n**1. He ships real AI products** — not just notebooks and demos. He architected 3 AI modules (Health, Learning, Personalization) that went from concept to production.\n\n**2. Technical depth + leadership** — Rare dual capability: can design agentic LangGraph workflows AND manage 40+ engineers across 5 teams.\n\n**3. Hands-on AI architect** — Designed autonomous agents with tool-calling, contextual memory, structured prompt engineering, and LLM pipelines.\n\n**4. Patented innovator** — 3 published patents show he thinks beyond existing solutions.\n\n**5. Global perspective** — Indian engineering roots + pursuing a Master's in Germany = diverse, adaptable mindset.\n\n**6. Battle-tested** — Scaled systems by 50%, achieved 80%+ AI accuracy, delivered end-to-end AI features under real deadlines.\n\nHe's not just an engineer who codes — he's a builder who leads.",
-        followUp: ["His projects", "Contact him", "Work experience"],
+            "Here's what makes Aadish stand out:\n\n**1. Enterprise AI at EQS** — Currently shipping RAG and Q by EQS for regulated compliance — AI that must be accurate, auditable, and production-ready.\n\n**2. He ships real AI products** — Architected 3 AI modules at Heybobo (Health, Learning, Personalization) from concept to production.\n\n**3. Technical depth + leadership** — Can design agentic LangGraph workflows AND manage 40+ engineers across 5 teams.\n\n**4. Hands-on AI architect** — RAG pipelines, autonomous agents, tool-calling, contextual memory, and LLM systems.\n\n**5. Patented innovator** — 3 published patents show he thinks beyond existing solutions.\n\n**6. Global perspective** — India → Germany: engineering roots + Master's + enterprise AI at EQS.\n\nHe's not just an engineer who codes — he's a builder who leads.",
+        followUp: ["Tell me about EQS", "Contact him", "Work experience"],
     },
 
     // ── Leadership / Management ────────────────────────────────────────
@@ -541,7 +580,16 @@ function classifyIntent(
 // Component
 // ---------------------------------------------------------------------------
 
-const INITIAL_CHIPS = ["About Aadish", "Projects", "Skills", "Experience"];
+const INITIAL_CHIPS = ["About Aadish", "EQS & Q", "Skills", "Experience"];
+
+const QUICK_PROMPTS = [
+    { label: "About him", query: "Tell me about Aadish", icon: User },
+    { label: "EQS & Q", query: "Tell me about EQS", icon: Sparkles },
+    { label: "Experience", query: "Work experience", icon: Briefcase },
+    { label: "Skills", query: "Skills overview", icon: Code2 },
+    { label: "Education", query: "His education", icon: GraduationCap },
+    { label: "Projects", query: "Show me projects", icon: Bot },
+];
 
 const AIAssistant = () => {
     const { theme } = useTheme();
@@ -551,13 +599,15 @@ const AIAssistant = () => {
         {
             role: "assistant",
             content:
-                "Hey! 👋 I'm Aadish's portfolio assistant. I can tell you about his projects, skills, experience, education, or anything else.\n\nWhat would you like to know?",
+                "Hey! I'm Aadish's AI guide.\n\nI know his work at EQS Group (RAG + Q by EQS), Heybobo, projects, skills, and more.\n\nWhat would you like to explore?",
         },
         { role: "chips", content: INITIAL_CHIPS.join("|") },
     ]);
     const [input, setInput] = useState("");
     const [isTyping, setIsTyping] = useState(false);
+    const [hasInteracted, setHasInteracted] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const scrollToBottom = useCallback(() => {
         requestAnimationFrame(() => {
@@ -569,49 +619,54 @@ const AIAssistant = () => {
 
     useEffect(scrollToBottom, [messages, isTyping, scrollToBottom]);
 
-    const processInput = useCallback(
-        (text: string) => {
-            if (!text.trim()) return;
+    useEffect(() => {
+        if (isOpen) {
+            const t = setTimeout(() => inputRef.current?.focus(), 200);
+            return () => clearTimeout(t);
+        }
+    }, [isOpen]);
 
-            const userMsg: Message = { role: "user", content: text };
+    const processInput = useCallback((text: string) => {
+        if (!text.trim()) return;
+
+        setHasInteracted(true);
+        const userMsg: Message = { role: "user", content: text };
+        setMessages((prev) => {
+            const filtered = prev.filter((m) => m.role !== "chips");
+            return [...filtered, userMsg];
+        });
+        setInput("");
+        setIsTyping(true);
+
+        const delay = Math.min(450 + text.length * 8, 1100);
+
+        setTimeout(() => {
             setMessages((prev) => {
-                const filtered = prev.filter((m) => m.role !== "chips");
-                return [...filtered, userMsg];
+                const result = classifyIntent(text, prev);
+                const newMessages: Message[] = [
+                    ...prev,
+                    { role: "assistant", content: result.response },
+                ];
+
+                if (
+                    result.intentId === "contact" &&
+                    text.toLowerCase().includes("whatsapp")
+                ) {
+                    newMessages.push({ role: "whatsapp", content: "" });
+                }
+
+                if (result.followUp && result.followUp.length > 0) {
+                    newMessages.push({
+                        role: "chips",
+                        content: result.followUp.join("|"),
+                    });
+                }
+
+                return newMessages;
             });
-            setInput("");
-            setIsTyping(true);
-
-            const delay = Math.min(400 + text.length * 8, 1200);
-
-            setTimeout(() => {
-                setMessages((prev) => {
-                    const result = classifyIntent(text, prev);
-                    const newMessages: Message[] = [
-                        ...prev,
-                        { role: "assistant", content: result.response },
-                    ];
-
-                    if (
-                        result.intentId === "contact" &&
-                        text.toLowerCase().includes("whatsapp")
-                    ) {
-                        newMessages.push({ role: "whatsapp", content: "" });
-                    }
-
-                    if (result.followUp && result.followUp.length > 0) {
-                        newMessages.push({
-                            role: "chips",
-                            content: result.followUp.join("|"),
-                        });
-                    }
-
-                    return newMessages;
-                });
-                setIsTyping(false);
-            }, delay);
-        },
-        []
-    );
+            setIsTyping(false);
+        }, delay);
+    }, []);
 
     const handleSend = () => processInput(input);
 
@@ -635,50 +690,86 @@ const AIAssistant = () => {
         processInput(chip);
     };
 
+    const showWelcomeGrid =
+        !hasInteracted &&
+        messages.filter((m) => m.role === "user").length === 0;
+
     return (
-        <div className="fixed bottom-6 right-6 z-50">
+        <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50">
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                        initial={{ opacity: 0, scale: 0.92, y: 24 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        transition={{ duration: 0.2 }}
-                        className={`absolute bottom-20 right-0 w-[370px] h-[520px] rounded-2xl overflow-hidden flex flex-col border ${
-                            isDark ? "border-solar/20" : "border-slate-200"
+                        exit={{ opacity: 0, scale: 0.94, y: 16 }}
+                        transition={{ type: "spring", damping: 26, stiffness: 320 }}
+                        className={`absolute bottom-[4.5rem] right-0 w-[min(100vw-1.5rem,400px)] h-[min(72vh,580px)] rounded-3xl overflow-hidden flex flex-col border ${
+                            isDark ? "border-white/[0.08]" : "border-slate-200/80"
                         }`}
                         style={{
-                            backgroundColor: isDark ? "rgba(3, 0, 20, 0.95)" : "rgba(255, 255, 255, 0.97)",
-                            backdropFilter: "blur(24px)",
+                            background: isDark
+                                ? "linear-gradient(165deg, rgba(12,10,32,0.98) 0%, rgba(3,0,20,0.98) 100%)"
+                                : "linear-gradient(165deg, #ffffff 0%, #f8fafc 100%)",
+                            backdropFilter: "blur(28px)",
                             boxShadow: isDark
-                                ? "0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(212,175,55,0.05)"
-                                : "0 20px 60px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06)",
+                                ? "0 24px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(212,175,55,0.08), 0 0 60px rgba(212,175,55,0.06)"
+                                : "0 24px 80px rgba(15,23,42,0.12), 0 4px 16px rgba(15,23,42,0.06)",
                         }}
                     >
+                        {/* Ambient glow */}
+                        <div
+                            className="pointer-events-none absolute -top-20 -right-16 w-56 h-56 rounded-full opacity-40"
+                            style={{
+                                background: isDark
+                                    ? "radial-gradient(circle, rgba(212,175,55,0.18), transparent 70%)"
+                                    : "radial-gradient(circle, rgba(212,175,55,0.12), transparent 70%)",
+                            }}
+                        />
+
                         {/* Header */}
-                        <div className={`px-4 py-3.5 border-b flex justify-between items-center ${
-                            isDark ? "border-white/[0.06] bg-white/[0.02]" : "border-slate-100 bg-slate-50/80"
-                        }`}>
+                        <div
+                            className={`relative px-4 py-3.5 border-b flex justify-between items-center ${
+                                isDark
+                                    ? "border-white/[0.06]"
+                                    : "border-slate-100"
+                            }`}
+                        >
                             <div className="flex items-center gap-3">
-                                <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${
-                                    isDark ? "bg-solar/10 text-solar" : "bg-amber-50 text-amber-600"
-                                }`}>
-                                    <Sparkles size={18} />
+                                <div className="relative">
+                                    <div
+                                        className={`w-10 h-10 rounded-2xl flex items-center justify-center ${
+                                            isDark
+                                                ? "bg-gradient-to-br from-solar/25 to-solar/5 text-solar"
+                                                : "bg-gradient-to-br from-amber-100 to-amber-50 text-amber-700"
+                                        }`}
+                                    >
+                                        <Sparkles size={18} />
+                                    </div>
+                                    <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-400 border-2 border-[rgba(3,0,20,0.98)]" />
                                 </div>
                                 <div>
-                                    <div className={`font-display font-bold text-sm ${isDark ? "text-white" : "text-slate-900"}`}>
-                                        Ask Aadish&apos;s AI
+                                    <div
+                                        className={`font-display font-bold text-[15px] tracking-tight ${
+                                            isDark ? "text-white" : "text-slate-900"
+                                        }`}
+                                    >
+                                        Aadish AI
                                     </div>
-                                    <div className={`text-[10px] font-mono flex items-center gap-1.5 ${isDark ? "text-solar/70" : "text-amber-600/70"}`}>
-                                        <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                                        Knows everything about him
+                                    <div
+                                        className={`text-[11px] flex items-center gap-1.5 ${
+                                            isDark ? "text-muted" : "text-slate-500"
+                                        }`}
+                                    >
+                                        Portfolio guide · EQS · RAG · Q
                                     </div>
                                 </div>
                             </div>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className={`p-1.5 rounded-lg transition-all ${
-                                    isDark ? "text-subtle hover:text-white hover:bg-white/5" : "text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                                className={`p-2 rounded-xl transition-all ${
+                                    isDark
+                                        ? "text-subtle hover:text-white hover:bg-white/5"
+                                        : "text-slate-400 hover:text-slate-700 hover:bg-slate-100"
                                 }`}
                                 aria-label="Close assistant"
                             >
@@ -689,15 +780,15 @@ const AIAssistant = () => {
                         {/* Messages */}
                         <div
                             ref={scrollRef}
-                            className="flex-1 overflow-y-auto px-4 py-3 space-y-3 text-[13px]"
+                            className="relative flex-1 overflow-y-auto px-4 py-4 space-y-3.5 text-[13px]"
                         >
                             {messages.map((msg, i) => (
                                 <motion.div
                                     key={i}
-                                    initial={{ opacity: 0, y: 6 }}
+                                    initial={{ opacity: 0, y: 8 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.2 }}
-                                    className={`flex ${
+                                    transition={{ duration: 0.22 }}
+                                    className={`flex gap-2.5 ${
                                         msg.role === "user"
                                             ? "justify-end"
                                             : "justify-start"
@@ -708,83 +799,177 @@ const AIAssistant = () => {
                                             href="https://wa.me/919588188463"
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-green-500/10 text-green-400 border border-green-500/20 hover:bg-green-500/15 transition-colors text-xs font-medium"
+                                            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-green-500/10 text-green-400 border border-green-500/20 hover:bg-green-500/15 transition-colors text-xs font-medium"
                                         >
                                             <MessageCircle size={14} />
                                             Chat on WhatsApp
                                             <ExternalLink size={10} />
                                         </a>
                                     ) : msg.role === "chips" ? (
-                                        <div className="flex flex-wrap gap-1.5 w-full">
+                                        <div className="flex flex-wrap gap-1.5 w-full pl-9">
                                             {msg.content.split("|").map((chip, ci) => (
                                                 <button
                                                     key={ci}
-                                                    onClick={() =>
-                                                        handleChipClick(chip)
-                                                    }
+                                                    onClick={() => handleChipClick(chip)}
                                                     className={`px-3 py-1.5 rounded-full text-[11px] font-medium transition-all cursor-pointer ${
-                                        isDark
-                                            ? "bg-solar/[0.08] text-solar border border-solar/15 hover:bg-solar/15 hover:border-solar/25"
-                                            : "bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 hover:border-amber-300"
-                                    }`}
+                                                        isDark
+                                                            ? "bg-white/[0.04] text-solar border border-solar/20 hover:bg-solar/10 hover:border-solar/35"
+                                                            : "bg-white text-amber-800 border border-amber-200 shadow-sm hover:bg-amber-50 hover:border-amber-300"
+                                                    }`}
                                                 >
                                                     {chip}
                                                 </button>
                                             ))}
                                         </div>
                                     ) : (
-                                        <div
-                                            className={`max-w-[88%] px-4 py-3 rounded-xl ${
-                                                msg.role === "user"
-                                                    ? isDark
-                                                        ? "bg-solar/10 border border-solar/20 text-solar"
-                                                        : "bg-amber-50 border border-amber-200 text-amber-800"
-                                                    : isDark
-                                                        ? "bg-white/[0.04] border border-white/[0.06] text-[#c8d0dc]"
-                                                        : "bg-slate-50 border border-slate-100 text-slate-700"
-                                            }`}
-                                        >
-                                            <div className="whitespace-pre-wrap leading-relaxed">
-                                                {msg.content}
+                                        <>
+                                            {msg.role === "assistant" && (
+                                                <div
+                                                    className={`mt-0.5 w-7 h-7 rounded-lg shrink-0 flex items-center justify-center ${
+                                                        isDark
+                                                            ? "bg-solar/15 text-solar"
+                                                            : "bg-amber-100 text-amber-700"
+                                                    }`}
+                                                >
+                                                    <Bot size={14} />
+                                                </div>
+                                            )}
+                                            <div
+                                                className={`max-w-[84%] px-3.5 py-2.5 ${
+                                                    msg.role === "user"
+                                                        ? isDark
+                                                            ? "rounded-2xl rounded-br-md bg-gradient-to-br from-solar/20 to-solar/10 border border-solar/25 text-solar"
+                                                            : "rounded-2xl rounded-br-md bg-gradient-to-br from-amber-100 to-amber-50 border border-amber-200 text-amber-900"
+                                                        : isDark
+                                                          ? "rounded-2xl rounded-tl-md bg-white/[0.045] border border-white/[0.07] text-[#d1d8e4]"
+                                                          : "rounded-2xl rounded-tl-md bg-slate-50 border border-slate-100 text-slate-700 shadow-sm"
+                                                }`}
+                                            >
+                                                <div className="whitespace-pre-wrap leading-relaxed">
+                                                    {formatMessage(msg.content)}
+                                                </div>
                                             </div>
-                                        </div>
+                                        </>
                                     )}
                                 </motion.div>
                             ))}
+
+                            {showWelcomeGrid && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.15 }}
+                                    className="grid grid-cols-2 gap-2 pt-1 pl-9"
+                                >
+                                    {QUICK_PROMPTS.map((p) => (
+                                        <button
+                                            key={p.label}
+                                            onClick={() => processInput(p.query)}
+                                            className={`group flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-left transition-all ${
+                                                isDark
+                                                    ? "bg-white/[0.03] border border-white/[0.06] hover:border-solar/25 hover:bg-solar/[0.06]"
+                                                    : "bg-white border border-slate-200 hover:border-amber-300 hover:bg-amber-50/60 shadow-sm"
+                                            }`}
+                                        >
+                                            <p.icon
+                                                size={14}
+                                                className={
+                                                    isDark
+                                                        ? "text-solar/70 group-hover:text-solar"
+                                                        : "text-amber-600"
+                                                }
+                                            />
+                                            <span
+                                                className={`text-[11px] font-medium ${
+                                                    isDark
+                                                        ? "text-muted group-hover:text-white"
+                                                        : "text-slate-600 group-hover:text-slate-900"
+                                                }`}
+                                            >
+                                                {p.label}
+                                            </span>
+                                        </button>
+                                    ))}
+                                </motion.div>
+                            )}
+
                             {isTyping && (
-                                <div className="flex justify-start">
-                                    <div className={`px-4 py-3 rounded-xl flex gap-1.5 ${
-                                        isDark ? "bg-white/[0.04] border border-white/[0.06]" : "bg-slate-50 border border-slate-100"
-                                    }`}>
-                                        <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${isDark ? "bg-solar" : "bg-amber-500"}`} />
-                                        <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${isDark ? "bg-solar" : "bg-amber-500"}`} style={{ animationDelay: "150ms" }} />
-                                        <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${isDark ? "bg-solar" : "bg-amber-500"}`} style={{ animationDelay: "300ms" }} />
+                                <div className="flex gap-2.5 justify-start">
+                                    <div
+                                        className={`mt-0.5 w-7 h-7 rounded-lg shrink-0 flex items-center justify-center ${
+                                            isDark
+                                                ? "bg-solar/15 text-solar"
+                                                : "bg-amber-100 text-amber-700"
+                                        }`}
+                                    >
+                                        <Bot size={14} />
+                                    </div>
+                                    <div
+                                        className={`px-4 py-3 rounded-2xl rounded-tl-md flex gap-1.5 items-center ${
+                                            isDark
+                                                ? "bg-white/[0.045] border border-white/[0.07]"
+                                                : "bg-slate-50 border border-slate-100"
+                                        }`}
+                                    >
+                                        {[0, 1, 2].map((d) => (
+                                            <motion.div
+                                                key={d}
+                                                className={`w-1.5 h-1.5 rounded-full ${
+                                                    isDark ? "bg-solar" : "bg-amber-500"
+                                                }`}
+                                                animate={{ opacity: [0.3, 1, 0.3], y: [0, -2, 0] }}
+                                                transition={{
+                                                    duration: 0.9,
+                                                    repeat: Infinity,
+                                                    delay: d * 0.15,
+                                                }}
+                                            />
+                                        ))}
                                     </div>
                                 </div>
                             )}
                         </div>
 
                         {/* Input */}
-                        <div className={`px-3 py-2.5 border-t ${isDark ? "border-white/[0.06]" : "border-slate-100"}`}>
-                            <div className="relative flex items-center">
+                        <div
+                            className={`relative px-3 py-3 border-t ${
+                                isDark ? "border-white/[0.06]" : "border-slate-100"
+                            }`}
+                        >
+                            <div
+                                className={`relative flex items-center rounded-2xl transition-all ${
+                                    isDark
+                                        ? "bg-white/[0.04] border border-white/[0.08] focus-within:border-solar/35 focus-within:bg-white/[0.05]"
+                                        : "bg-slate-50 border border-slate-200 focus-within:border-amber-400 focus-within:bg-white"
+                                }`}
+                            >
                                 <input
+                                    ref={inputRef}
                                     type="text"
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
                                     onKeyDown={(e) =>
-                                        e.key === "Enter" && !e.shiftKey && handleSend()
+                                        e.key === "Enter" &&
+                                        !e.shiftKey &&
+                                        handleSend()
                                     }
-                                    placeholder="Ask anything about Aadish..."
-                                    className={`w-full rounded-xl py-3 pl-4 pr-12 text-sm focus:outline-none transition-colors ${
+                                    placeholder="Ask about EQS, RAG, skills..."
+                                    className={`w-full bg-transparent rounded-2xl py-3 pl-4 pr-12 text-sm focus:outline-none ${
                                         isDark
-                                            ? "bg-white/[0.03] border border-white/[0.08] text-white placeholder:text-subtle focus:border-solar/30"
-                                            : "bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-amber-400"
+                                            ? "text-white placeholder:text-subtle"
+                                            : "text-slate-900 placeholder:text-slate-400"
                                     }`}
                                 />
                                 <button
                                     onClick={handleSend}
                                     disabled={!input.trim()}
-                                    className="absolute right-2 p-2 rounded-lg text-solar hover:bg-solar/10 transition-all disabled:opacity-30 disabled:cursor-default"
+                                    className={`absolute right-1.5 p-2 rounded-xl transition-all disabled:opacity-30 disabled:cursor-default ${
+                                        input.trim()
+                                            ? "bg-solar text-void hover:bg-solar-bright"
+                                            : isDark
+                                              ? "text-solar"
+                                              : "text-amber-600"
+                                    }`}
                                     aria-label="Send message"
                                 >
                                     <Send size={14} />
@@ -796,15 +981,52 @@ const AIAssistant = () => {
             </AnimatePresence>
 
             {/* Floating Button */}
-            <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsOpen(!isOpen)}
-                className="w-14 h-14 rounded-full bg-solar text-void flex items-center justify-center hover:bg-solar-bright transition-all duration-300 glow-solar"
-                aria-label="Toggle AI assistant"
-            >
-                {isOpen ? <X size={22} /> : <Bot size={22} />}
-            </motion.button>
+            <div className="relative">
+                {!isOpen && (
+                    <motion.span
+                        className="absolute inset-0 rounded-full bg-solar/40"
+                        animate={{ scale: [1, 1.35, 1], opacity: [0.45, 0, 0.45] }}
+                        transition={{ duration: 2.4, repeat: Infinity }}
+                    />
+                )}
+                <motion.button
+                    whileHover={{ scale: 1.06 }}
+                    whileTap={{ scale: 0.94 }}
+                    onClick={() => setIsOpen(!isOpen)}
+                    className={`relative w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
+                        isOpen
+                            ? isDark
+                                ? "bg-white/10 text-white border border-white/15"
+                                : "bg-slate-100 text-slate-700 border border-slate-200"
+                            : "bg-solar text-void hover:bg-solar-bright glow-solar"
+                    }`}
+                    aria-label="Toggle AI assistant"
+                >
+                    <AnimatePresence mode="wait" initial={false}>
+                        {isOpen ? (
+                            <motion.div
+                                key="close"
+                                initial={{ rotate: -90, opacity: 0 }}
+                                animate={{ rotate: 0, opacity: 1 }}
+                                exit={{ rotate: 90, opacity: 0 }}
+                                transition={{ duration: 0.15 }}
+                            >
+                                <X size={22} />
+                            </motion.div>
+                        ) : (
+                            <motion.div
+                                key="bot"
+                                initial={{ rotate: 90, opacity: 0 }}
+                                animate={{ rotate: 0, opacity: 1 }}
+                                exit={{ rotate: -90, opacity: 0 }}
+                                transition={{ duration: 0.15 }}
+                            >
+                                <Bot size={22} />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </motion.button>
+            </div>
         </div>
     );
 };

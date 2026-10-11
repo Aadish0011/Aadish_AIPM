@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Outfit, Syne } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
-const inter = Inter({
+const outfit = Outfit({
     subsets: ["latin"],
-    variable: "--font-inter",
+    variable: "--font-outfit",
 });
 
-const spaceGrotesk = Space_Grotesk({
+const syne = Syne({
     subsets: ["latin"],
-    variable: "--font-space-grotesk",
+    variable: "--font-syne",
 });
 
 export const metadata: Metadata = {
@@ -24,6 +24,8 @@ export const metadata: Metadata = {
         "Machine Learning",
         "LLM",
         "Portfolio",
+        "EQS",
+        "RAG",
     ],
     authors: [{ name: "Aadish Parashar" }],
 };
@@ -44,7 +46,7 @@ export default function RootLayout({
                     }}
                 />
             </head>
-            <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans`}>
+            <body className={`${outfit.variable} ${syne.variable} font-sans`}>
                 <ThemeProvider>{children}</ThemeProvider>
             </body>
         </html>
